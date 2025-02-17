@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
           MyCalendar(events: widget.events),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.events.length,
+              itemCount: widget.events.values.expand((events) => events).toList().length,
               itemBuilder: (context, index) {
                 String date = widget.events.keys.elementAt(index);
                 List<Event> events = widget.events[date]!;
