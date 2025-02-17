@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/components/model/event.dart';
+import 'package:login/components/model/event_type.dart';
 import 'package:login/components/my-popup-details.dart';
 import 'package:login/components/myCalendar/my_calendar_builder.dart';
 import 'package:login/components/myCalendar/my_header_style.dart';
@@ -229,7 +230,7 @@ class _MyCalendarState extends State<MyCalendar> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
-                      color: Colors.blue,
+                      color: value[index].type.eventTypeColor,
                     ),
                     child: ListTile(
                       onTap: () => _showEventDetails(context, value[index]),

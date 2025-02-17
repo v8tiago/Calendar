@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/components/model/event.dart';
 import 'package:login/components/model/event_type.dart';
-import 'package:login/pages/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MyCalendarBuilder extends CalendarBuilders<Event> {
