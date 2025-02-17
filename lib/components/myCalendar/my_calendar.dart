@@ -8,7 +8,8 @@ import 'package:login/pages/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MyCalendar extends StatefulWidget {
-  const MyCalendar({super.key});
+  const MyCalendar({super.key, required this.events});
+  final Map<String, List<Event>> events;
 
   @override
   _MyCalendarState createState() => _MyCalendarState();
@@ -40,9 +41,8 @@ class _MyCalendarState extends State<MyCalendar> {
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    // TODO implementar
-    // return kEvents[day] ?? [];
-    return List.empty();
+        final String dayKey = DateFormat('yyyy-MM-dd').format(day);
+    return widget.events[dayKey] ?? [];
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:login/pages/home/home_page.dart';
 import 'package:login/pages/login_page.dart';
 
 void main() {
@@ -15,19 +14,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.system;
-
-  void _updateTheme(String themeMode) {
-    setState(() {
-      if (themeMode == 'Claro') {
-        _themeMode = ThemeMode.light;
-      } else if (themeMode == 'Escuro') {
-        _themeMode = ThemeMode.dark;
-      } else {
-        _themeMode = ThemeMode.system;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +23,12 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: [
           Locale('pt', 'BR'),
         ],
-        // theme: ThemeData(
-        //   useMaterial3: true,
-        // ),
-        theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: _themeMode,
-        home: LoginPage(onThemeChanged: _updateTheme),
+        theme: ThemeData(
+          useMaterial3: true,
+        ),
+      //   theme: ThemeData.light(),
+      // darkTheme: ThemeData.dark(),
+        home: LoginPage(),
     );
   }
 }

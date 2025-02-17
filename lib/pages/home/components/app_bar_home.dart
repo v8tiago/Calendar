@@ -4,8 +4,7 @@ import 'package:login/pages/profile_page.dart';
 import 'package:login/pages/settings_page.dart';
 
 class AppBarHome extends StatefulWidget implements PreferredSizeWidget{
-  const AppBarHome({super.key, required this.onThemeChanged});
-  final Function(String) onThemeChanged;
+  const AppBarHome({super.key});
 
   @override
   State<AppBarHome> createState() => _AppBarHomeState();
@@ -99,7 +98,7 @@ class _AppBarHomeState extends State<AppBarHome> {
 
   void _logout(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => LoginPage(onThemeChanged: widget.onThemeChanged)),
+      MaterialPageRoute(builder: (context) => LoginPage()),
       (Route<dynamic> route) => false,
     );
   }
@@ -128,7 +127,6 @@ class _AppBarHomeState extends State<AppBarHome> {
         .push(
       MaterialPageRoute(
         builder: (context) => SettingsPage(
-          onThemeChanged: widget.onThemeChanged,
         ),
       ),
     )

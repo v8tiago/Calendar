@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
-  final Function(String) onThemeChanged;
-
-  const SettingsPage({super.key, required this.onThemeChanged});
+  const SettingsPage({super.key});
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -24,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   _themeMode = 'Claro';
                 });
-                widget.onThemeChanged('Claro');
+                // widget.onThemeChanged('Claro')
                 Navigator.pop(context);
               },
               child: Text('Claro'),
@@ -34,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   _themeMode = 'Escuro';
                 });
-                widget.onThemeChanged('Escuro');
+                // widget.onThemeChanged('Escuro');
                 Navigator.pop(context);
               },
               child: Text('Escuro'),
@@ -44,7 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   _themeMode = 'Sistema';
                 });
-                widget.onThemeChanged('Sistema');
+                // widget.onThemeChanged('Sistema');
                 Navigator.pop(context);
               },
               child: Text('Seguindo o Padrão do Sistema'),

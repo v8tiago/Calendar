@@ -7,23 +7,21 @@ import 'package:login/components/square_tile.dart';
 import 'package:login/pages/home/home_page.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key, required this.onThemeChanged});
+  LoginPage({super.key});
 
   final userController = TextEditingController();
   final passwordController = TextEditingController();
-  final Function(String) onThemeChanged;
 
   void signUserIn(BuildContext context)  async {
     try {
       // Fetch events from the API
-      List<Event> events = await EventService().fetchEvents();
+      Map<String, List<Event>> events = await EventService().fetchEvents();
 
       // Navigate to HomePage with the fetched events
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TableBasicsExample(
-            onThemeChanged: onThemeChanged,
+          builder: (context) => HomePage(
             events: events,
           ),
         ),
