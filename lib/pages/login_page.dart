@@ -14,10 +14,8 @@ class LoginPage extends StatelessWidget {
 
   void signUserIn(BuildContext context)  async {
     try {
-      // Fetch events from the API
       Map<String, List<Event>> events = await EventService().fetchEvents();
 
-      // Navigate to HomePage with the fetched events
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -27,7 +25,6 @@ class LoginPage extends StatelessWidget {
         ),
       );
     } catch (e) {
-      // Handle error
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to load events')),
       );

@@ -42,7 +42,7 @@ class _MyCalendarState extends State<MyCalendar> {
 
   List<Event> _getEventsForDay(DateTime day) {
         final String dayKey = DateFormat('yyyy-MM-dd').format(day);
-    return widget.events[dayKey] ?? [];
+    return widget.events[dayKey] ?? List.empty();
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
@@ -97,18 +97,18 @@ class _MyCalendarState extends State<MyCalendar> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (event.description != null) ...[
-                MyPopupDetails(type: 'Descrição: ', value: event.description!),
-                SizedBox(height: 15.0),
-              ],
-              if (event.location != null) ...[
-                MyPopupDetails(type: 'Local: ', value: event.location!),
-                SizedBox(height: 15.0),
-              ],
-              if (event.time != null) ...[
-                MyPopupDetails(type: 'Horário: ', value: event.time!),
-                SizedBox(height: 8.0),
-              ],
+              ...[
+              MyPopupDetails(type: 'Descrição: ', value: event.description),
+              SizedBox(height: 15.0),
+            ],
+              ...[
+              MyPopupDetails(type: 'Local: ', value: event.location),
+              SizedBox(height: 15.0),
+            ],
+              ...[
+              MyPopupDetails(type: 'Horário: ', value: event.time),
+              SizedBox(height: 8.0),
+            ],
             ],
           ),
           actions: <Widget>[
@@ -229,14 +229,14 @@ class _MyCalendarState extends State<MyCalendar> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
-                      // color: value[index].color.shade400, TODO implemntar
+                      color: Colors.blue,
                     ),
                     child: ListTile(
                       onTap: () => _showEventDetails(context, value[index]),
                       title: Row(
                         children: [
                           Text(
-                            '${value[index].time}',
+                            value[index].time,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15.0,
@@ -251,7 +251,7 @@ class _MyCalendarState extends State<MyCalendar> {
                           ),
                           Flexible(
                             child: Text(
-                              '${value[index]}',
+                              value[index].title,
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15.0,

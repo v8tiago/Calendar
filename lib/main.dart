@@ -26,8 +26,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           useMaterial3: true,
         ),
-      //   theme: ThemeData.light(),
-      // darkTheme: ThemeData.dark(),
         home: LoginPage(),
     );
   }
