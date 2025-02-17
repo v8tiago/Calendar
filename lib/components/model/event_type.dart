@@ -26,4 +26,21 @@ extension EventTypeExtension on EventType {
         return Colors.grey; // Cor padrão caso o tipo não seja encontrado
     }
   }
+
+  String get eventTypeDetail {
+    switch (this) {
+      case EventType.nacional:
+        return 'Nacional'; // Cor para material Nacional
+      case EventType.estadual:
+        return 'Estadual'; // Cor para material Estadual
+      case EventType.sede:
+        return 'Sede'; // Cor para material Sede
+      case EventType.msj:
+        return 'Módulo São Jorge'; // Cor para material MSJ
+      case EventType.mam:
+        return 'Módulo Arcanjo Miguel'; // Cor para material MAM
+      default:
+        return ''; // Cor padrão caso o tipo não seja encontrado
+    }
+  }
 }

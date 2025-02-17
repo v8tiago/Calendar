@@ -42,7 +42,7 @@ class _MyCalendarState extends State<MyCalendar> {
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-        final String dayKey = DateFormat('yyyy-MM-dd').format(day);
+    final String dayKey = DateFormat('yyyy-MM-dd').format(day);
     return widget.events[dayKey] ?? List.empty();
   }
 
@@ -99,17 +99,21 @@ class _MyCalendarState extends State<MyCalendar> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...[
-              MyPopupDetails(type: 'Descrição: ', value: event.description),
-              SizedBox(height: 15.0),
-            ],
+                MyPopupDetails(type: 'Tipo: ', value: event.type.eventTypeDetail),
+                SizedBox(height: 15.0),
+              ],
               ...[
-              MyPopupDetails(type: 'Local: ', value: event.location),
-              SizedBox(height: 15.0),
-            ],
+                MyPopupDetails(type: 'Descrição: ', value: event.description),
+                SizedBox(height: 15.0),
+              ],
               ...[
-              MyPopupDetails(type: 'Horário: ', value: event.time),
-              SizedBox(height: 8.0),
-            ],
+                MyPopupDetails(type: 'Local: ', value: event.location),
+                SizedBox(height: 15.0),
+              ],
+              ...[
+                MyPopupDetails(type: 'Horário: ', value: event.time),
+                SizedBox(height: 8.0),
+              ],
             ],
           ),
           actions: <Widget>[
@@ -195,9 +199,7 @@ class _MyCalendarState extends State<MyCalendar> {
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Text(
             DateFormat('EEE, dd \'de\' MMMM', 'pt_BR').format(_selectedDay!),
-            style: TextStyle(fontSize: 17, 
-            color: Colors.grey[500]),
-          
+            style: TextStyle(fontSize: 17, color: Colors.grey[500]),
           ),
         ),
         const SizedBox(height: 15.0),
