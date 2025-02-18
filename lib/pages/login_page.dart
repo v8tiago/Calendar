@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
 
   void signUserIn(BuildContext context)  async {
     try {
-      Map<String, List<Event>> events = await EventService().fetchEvents();
+      Map<String, List<Event>> events = await EventService().fetchEvents(DateTime.now().year);
 
       Navigator.push(
         context,

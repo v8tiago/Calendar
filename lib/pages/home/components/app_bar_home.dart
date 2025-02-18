@@ -6,7 +6,9 @@ import 'package:login/pages/profile_page.dart';
 import 'package:login/pages/settings_page.dart';
 
 class AppBarHome extends StatefulWidget implements PreferredSizeWidget {
-  const AppBarHome({super.key,});
+  const AppBarHome({
+    super.key,
+  });
 
   @override
   State<AppBarHome> createState() => _AppBarHomeState();
@@ -25,7 +27,7 @@ class _AppBarHomeState extends State<AppBarHome> {
         icon: Icon(Icons.menu),
         color: Colors.white, // Ícone de menu (sandwich)
         onPressed: () {
-          _showUserMenu(context);
+          _showUserMenu(context, currentYear);
         },
       ),
       title: Text(
@@ -45,7 +47,7 @@ class _AppBarHomeState extends State<AppBarHome> {
     );
   }
 
-  void _showUserMenu(BuildContext context) {
+  void _showUserMenu(BuildContext context, int currentYear) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -72,7 +74,7 @@ class _AppBarHomeState extends State<AppBarHome> {
                 leading: Icon(Icons.logout, color: Colors.red),
                 title: Text('Logout', style: TextStyle(color: Colors.red)),
                 onTap: () {
-                  _logout(context);
+                  _logout(context, currentYear);
                 },
               ),
             ],
@@ -93,7 +95,7 @@ class _AppBarHomeState extends State<AppBarHome> {
         });
   }
 
-  void _logout(BuildContext context) {
+  void _logout(BuildContext context, int currentYear) {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => LoginPage()),
       (Route<dynamic> route) => false,

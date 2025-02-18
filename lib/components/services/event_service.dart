@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:login/components/model/event.dart';
+import 'package:login/constants.dart';
 
 class EventService {
-  static const String _baseUrl = 'https://72b5-2804-18-50af-659-259c-e46f-9cf6-76f0.ngrok-free.app/api/'; // Substitua pela URL da sua API
-
-  Future<Map<String, List<Event>>> fetchEvents() async {
-    String path = _baseUrl + 'events/2025';
+  Future<Map<String, List<Event>>> fetchEvents(int currentYear) async {
+    String path = '${Constants.baseEvents}/$currentYear';
     final response = await http.get(Uri.parse(path));
 
     if (response.statusCode == 200) {
@@ -24,10 +23,9 @@ class EventService {
   }
 
   Future<Event> addEvent(Event event) async {
-    String path = _baseUrl + 'events';
         try {
           final response = await http.post(
-            Uri.parse(path),
+            Uri.parse(Constants.baseEvents),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
               'title': event.title,

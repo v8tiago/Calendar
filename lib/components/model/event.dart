@@ -113,7 +113,7 @@ class Event {
       case 'MAM':
         return EventType.mam;
       default:
-        return EventType.other; // Or throw an exception for invalid values
+        return EventType.other;
     }
   }
 
