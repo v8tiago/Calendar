@@ -13,34 +13,34 @@ extension EventTypeExtension on EventType {
   Color get eventTypeColor {
     switch (this) {
       case EventType.nacional:
-        return Colors.blue; // Cor para material Nacional
+        return Colors.blue; 
       case EventType.estadual:
-        return Colors.green; // Cor para material Estadual
+        return Colors.green;
       case EventType.sede:
-        return Colors.yellow; // Cor para material Sede
+        return Colors.yellow;
       case EventType.msj:
-        return Colors.red; // Cor para material MSJ
+        return Colors.red;
       case EventType.mam:
-        return Colors.purple; // Cor para material MAM
+        return Colors.purple;
       default:
-        return Colors.grey; // Cor padrão caso o tipo não seja encontrado
+        return Colors.grey;
     }
   }
 
   String get eventTypeDetail {
     switch (this) {
       case EventType.nacional:
-        return 'Nacional'; // Cor para material Nacional
+        return 'Nacional';
       case EventType.estadual:
-        return 'Estadual'; // Cor para material Estadual
+        return 'Estadual'; 
       case EventType.sede:
-        return 'Sede'; // Cor para material Sede
+        return 'Sede'; 
       case EventType.msj:
-        return 'Módulo São Jorge'; // Cor para material MSJ
+        return 'Módulo São Jorge'; 
       case EventType.mam:
-        return 'Módulo Arcanjo Miguel'; // Cor para material MAM
+        return 'Módulo Arcanjo Miguel';
       default:
-        return ''; // Cor padrão caso o tipo não seja encontrado
+        return '';
     }
   }
 }

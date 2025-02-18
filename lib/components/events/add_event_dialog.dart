@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/components/model/event.dart';
+import 'package:login/components/model/event_type.dart';
+import 'package:login/components/services/event_service.dart';
 
 class AddEventDialog extends StatefulWidget {
   final Function(Event) onAddEvent;
@@ -18,7 +20,7 @@ class _AddEventDialogState extends State<AddEventDialog> {
   final _locationController = TextEditingController();
   final _timeController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-  MaterialColor _selectedColor = Colors.blue;
+  EventType _selectedType = EventType.sede;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,8 @@ class _AddEventDialogState extends State<AddEventDialog> {
                 decoration: InputDecoration(labelText: 'Horário'),
               ),
               ListTile(
-                title: Flexible(
+                title: Container(
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     'Data: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
                     style: TextStyle(color: Colors.black),
@@ -61,27 +64,49 @@ class _AddEventDialogState extends State<AddEventDialog> {
                 trailing: Icon(Icons.calendar_today),
                 onTap: _pickDate,
               ),
-              ListTile(
-                title: Text('Cor do Evento: '),
-                trailing: DropdownButton<MaterialColor>(
-                  value: _selectedColor,
-                  onChanged: (MaterialColor? newColor) {
-                    setState(() {
-                      _selectedColor = newColor!;
-                    });
-                  },
-                  items: Colors.primaries.map((MaterialColor color) {
-                    return DropdownMenuItem<MaterialColor>(
-                      value: color,
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        color: color,
-                      ),
-                    );
-                  }).toList(),
-                ),
+              SizedBox(
+                height: 10,
               ),
+              Column(
+                children: [
+                  Container(
+                    child: Text(
+                      'Tipo do Evento:',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButton<EventType>(
+                    value: _selectedType,
+                    onChanged: (EventType? newType) {
+                      setState(() {
+                        _selectedType = newType!;
+                      });
+                    },
+                    items: EventType.values.map((EventType type) {
+                      return DropdownMenuItem<EventType>(
+                        value: type,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 24,
+                              height: 24,
+                              color: type.eventTypeColor,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(type.eventTypeDetail)
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              )
             ],
           ),
         ),
@@ -95,19 +120,20 @@ class _AddEventDialogState extends State<AddEventDialog> {
         ),
         TextButton(
           child: Text('Adicionar'),
-          onPressed: () {
+          onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              //TODO implementar
-              // final newEvent = Event(
-              //   _titleController.text,
-              //   _selectedColor,
-              //   _descriptionController.text,
-              //   _locationController.text,
-              //   _timeController.text,
-              //   _selectedDate,
-              // );
-              // widget.onAddEvent(newEvent);
-              Navigator.of(context).pop();
+              final newEvent = Event(
+                title: _titleController.text,
+                type: EventType.estadual,
+                description: _descriptionController.text,
+                location: _locationController.text,
+                time: _timeController.text,
+                date: _selectedDate.toString(),
+              );
+
+              widget.onAddEvent(newEvent);
+              await EventService().addEvent(newEvent);
+              Navigator.of(context).pop(newEvent);
             }
           },
         ),
@@ -124,7 +150,8 @@ class _AddEventDialogState extends State<AddEventDialog> {
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
-        _selectedDate = picked;
+        _selectedDate = DateFormat('yyyy-MM-dd')
+            .parse(DateFormat('yyyy-MM-dd').format(picked));
       });
     }
   }
