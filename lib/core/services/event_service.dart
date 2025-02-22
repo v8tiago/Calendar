@@ -16,7 +16,6 @@ class EventService {
     );
 
     if (response.statusCode == 200) {
-      
       Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
       Map<String, List<Event>> eventsByDate = {};
 
@@ -36,10 +35,8 @@ class EventService {
     }
   }
 
-  Future addEvent(Event event) async {
-      final eventRequest = EventRequest.fromEvent(event);
-      final body = eventRequest.toJsonString();
-      print('Request Body: $body'); 
+  Future<Event> addEvent(EventRequest event) async {
+    final body = event.toJsonString();
     try {
       final response = await http.post(
         Uri.parse(Constants.baseEvents),
@@ -47,14 +44,39 @@ class EventService {
         body: body,
       );
 
-      // if (response.statusCode == 200) {
-      //   return json.decode(response.body);
-      // } else {
-      //   throw Exception('Failed to add event');
-      // }
+      log('Add Event Response Status: ${response.statusCode}');
+      log('Add Event Response Body: ${response.body}');
+
+      if (response.statusCode == 201) {
+        Map<String, dynamic> data =
+            json.decode(utf8.decode(response.bodyBytes));
+
+        var result = Event.fromJson(data);
+        return result;
+      } else {
+        throw Exception('Failed to add event');
+      }
+    } catch (error) {
+      throw Exception('Failed to add events');
+    }
+  }
+
+  Future<void> deleteEvent(int eventId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${Constants.baseEvents}/$eventId'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      
+      log('Delete Event Response Status: ${response.statusCode}');
+      log('Delete Event Response Body: ${response.body}');
+
+      if (response.statusCode != 204) {
+        throw Exception('Failed to delete event');
+      }
     } catch (error) {
       log(error.toString());
-      throw Exception('Failed to add events');
+      throw Exception('Failed to delete event');
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:magic_calendar/core/model/event.dart';
 import 'package:magic_calendar/core/model/user.dart';
+import 'package:magic_calendar/core/services/dto/event_request.dart';
 import 'package:magic_calendar/core/services/event_service.dart';
 import 'package:magic_calendar/modules/home/components/app_bar_home.dart';
 import 'package:magic_calendar/modules/home/components/calendar/cm_calendar.dart';
@@ -61,21 +62,34 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           Expanded(
-            child: MyCalendar(events: widget.events),
+            child: MyCalendar(
+              events: widget.events,
+              onEventDeleted: _deleteEventFromCalendar,
+            ),
           ),
         ],
       ),
     );
   }
 
-    void _showAddEventDialog(BuildContext context) {
+  void _showAddEventDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AddEventDialog(onAddEvent: (event) async {
-            EventService().addEvent(event);
-            setState(() {});
+            setState(() {
+              widget.events[event.date] = [event];
+            });
           });
         });
+  }
+
+  void _deleteEventFromCalendar(Event event) {
+    setState(() {
+      widget.events.forEach((key, value) {
+        value.removeWhere((e) => e.id == event.id);
+      });
+      widget.events.removeWhere((key, value) => value.isEmpty);
+    });
   }
 }

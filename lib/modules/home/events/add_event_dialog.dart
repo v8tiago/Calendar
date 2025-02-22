@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:magic_calendar/core/model/event.dart';
 import 'package:magic_calendar/core/model/event_type.dart';
+import 'package:magic_calendar/core/services/dto/event_request.dart';
 import 'package:magic_calendar/core/services/event_service.dart';
 
 class AddEventDialog extends StatefulWidget {
@@ -170,21 +171,21 @@ class _AddEventDialogState extends State<AddEventDialog> {
           child: Text('Adicionar'),
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              final newEvent = Event(
+              final newEvent = EventRequest(
                 title: _titleController.text,
-                type: _selectedType,
+                type: _selectedType.name.toString().toUpperCase(),
                 description: _descriptionController.text,
                 location: _locationController.text,
                 isAllDay: _isAllDay,
                 startTime:
-                    _parseTimeOfDay(_startTimeController.text, _isAllDay),
-                endTime: _parseTimeOfDay(_endTimeController.text, _isAllDay),
+                    _parseString(_startTimeController.text, _isAllDay),
+                endTime: _parseString(_endTimeController.text, _isAllDay),
                 date: DateFormat('yyyy-MM-dd').format(_selectedDate),
               );
 
               
-              await EventService().addEvent(newEvent);
-              widget.onAddEvent(newEvent);
+              Event eventCreated = await EventService().addEvent(newEvent);
+              widget.onAddEvent(eventCreated);
               Navigator.of(context).pop(newEvent);
             }
           },
@@ -214,5 +215,12 @@ class _AddEventDialogState extends State<AddEventDialog> {
       return TimeOfDay.fromDateTime(format.parse(time));
     }
     return TimeOfDay(hour: 0, minute: 0);
+  }
+
+    String _parseString(String time, bool isAllDay) {
+    if (!isAllDay) {
+      return time;
+    }
+    return '00:00';
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:magic_calendar/core/model/user.dart';
-import 'package:magic_calendar/modules/home/events/add_event_dialog.dart';
-import 'package:magic_calendar/core/services/event_service.dart';
 import 'package:magic_calendar/modules/login/presentation/login_page.dart';
 
 class AppBarHome extends StatefulWidget implements PreferredSizeWidget {

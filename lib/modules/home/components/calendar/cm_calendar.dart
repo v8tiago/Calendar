@@ -5,15 +5,17 @@ import 'package:intl/intl.dart';
 import 'package:magic_calendar/core/model/event.dart';
 import 'package:magic_calendar/core/model/event_type.dart';
 import 'package:magic_calendar/constants.dart';
+import 'package:magic_calendar/core/services/event_service.dart';
 import 'package:magic_calendar/modules/home/components/calendar/cm_calendar_builder.dart';
 import 'package:magic_calendar/modules/home/components/calendar/cm_header_style.dart';
 import 'package:magic_calendar/shared/presentation/widgets/cm-popup-details.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MyCalendar extends StatefulWidget {
-  const MyCalendar({super.key, required this.events});
+  const MyCalendar({super.key, required this.events, required this.onEventDeleted});
   final Map<String, List<Event>> events;
-
+  final Function(Event) onEventDeleted;
+  
   @override
   _MyCalendarState createState() => _MyCalendarState();
 }
@@ -143,11 +145,15 @@ class _MyCalendarState extends State<MyCalendar> {
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      //TODO implementar
-                    });
-                    Navigator.of(context).pop();
+                  onPressed: () async {
+                    try {
+                      await EventService().deleteEvent(event.id);
+                      widget.onEventDeleted(event);
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      print("Error deleting event: $e");
+                      // Lidar com o erro aqui, como mostrar uma mensagem ao usuário
+                    }
                   },
                 ),
                 Spacer(),

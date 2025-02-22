@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:magic_calendar/core/model/event_type.dart';
 
 class Event {
+  final int id;
   final String title;
   final EventType type;
   final String description;
@@ -15,6 +16,7 @@ class Event {
   final String date;
 
   Event({
+    required this.id,
     required this.title,
     required this.type,
     required this.description,
@@ -27,11 +29,12 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
+      id: json['id'],
       title: json['title'],
       type: _eventTypeFromString(json['type']),
       description: json['description'],
       location: json['location'],
-      isAllDay: json['isAllDay'],
+      isAllDay: json['isAllDay'] ?? false,
       startTime: _parseTimeOfDay(json['startTime']),
       endTime: _parseTimeOfDay(json['endTime']),
       date: json['date'],
@@ -39,6 +42,7 @@ class Event {
   }
 
   Event copyWith({
+    int? id,
     String? title,
     EventType? type,
     String? description,
@@ -49,11 +53,12 @@ class Event {
     String? date,
   }) {
     return Event(
+      id: id ?? this.id,
       title: title ?? this.title,
       type: type ?? this.type,
       description: description ?? this.description,
       location: location ?? this.location,
-      isAllDay:isAllDay?? this.isAllDay,
+      isAllDay: isAllDay ?? this.isAllDay,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       date: date ?? this.date,
@@ -62,6 +67,7 @@ class Event {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'title': title,
       'type': type,
       'description': description,
@@ -75,13 +81,15 @@ class Event {
 
   factory Event.fromMap(Map<String, dynamic> map) {
     return Event(
+      id: map['id'] as int,
       title: map['title'] as String,
       type: _eventTypeFromString(map['type'] as String),
       description: map['description'] as String,
       location: map['location'] as String,
       isAllDay: map['isAllDay'] as bool,
-      startTime: _parseTimeOfDay(map['startTime'] as String?), // Handle null String
-      endTime: _parseTimeOfDay(map['endTime'] as String?), 
+      startTime:
+          _parseTimeOfDay(map['startTime'] as String?), // Handle null String
+      endTime: _parseTimeOfDay(map['endTime'] as String?),
       date: map['date'] as String,
     );
   }
@@ -90,14 +98,15 @@ class Event {
 
   @override
   String toString() {
-    return 'Event(title: $title, color: $type, description: $description, location: $location, isAllDay: $isAllDay, startTime: $startTime, endTime:$endTime, date: $date)';
+    return 'Event(id: $id, title: $title, color: $type, description: $description, location: $location, isAllDay: $isAllDay, startTime: $startTime, endTime:$endTime, date: $date)';
   }
 
   @override
   bool operator ==(covariant Event other) {
     if (identical(this, other)) return true;
 
-    return other.title == title &&
+    return other.id == id &&
+        other.title == title &&
         other.type == type &&
         other.description == description &&
         other.location == location &&
@@ -109,7 +118,8 @@ class Event {
 
   @override
   int get hashCode {
-    return title.hashCode ^
+    return id.hashCode ^
+        title.hashCode ^
         type.hashCode ^
         description.hashCode ^
         location.hashCode ^
@@ -145,7 +155,7 @@ class Event {
     }
   }
 
-    static TimeOfDay? _parseTimeOfDay(String? timeString) {
+  static TimeOfDay? _parseTimeOfDay(String? timeString) {
     if (timeString == null) return null; // Handle null time strings
 
     try {
