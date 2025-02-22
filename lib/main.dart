@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:login/pages/login_page.dart';
+import 'package:magic_calendar/modules/login/presentation/login_page.dart';
 
 void main() {
   runApp(const MyApp());
