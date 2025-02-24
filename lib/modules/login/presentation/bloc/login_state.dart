@@ -1,4 +1,3 @@
-import '../../../../core/model/event.dart';
 import '../../domain/entities/user.dart';
 
 abstract class LoginState {}
