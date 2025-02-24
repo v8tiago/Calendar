@@ -46,8 +46,8 @@ class MyCalendarState extends State<MyCalendar> {
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
-    final String dayKey = DateFormat('yyyy-MM-dd').format(day);
+  List<Event> _getEventsForDay(DateTime selectedDay) {
+    final String dayKey = DateFormat('yyyy-MM-dd').format(selectedDay);
     return widget.events[dayKey] ?? List.empty();
   }
 
