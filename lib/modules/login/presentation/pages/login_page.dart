@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:magic_calendar/core/services/event_service.dart';
-import 'package:magic_calendar/modules/home/home_page.dart';
+import 'package:magic_calendar/modules/calendar/presentation/pages/calendar_page.dart';
 import 'package:magic_calendar/modules/login/data/datasources/user_remote_datasource.dart';
 import 'package:magic_calendar/modules/login/data/repositories/user_repository_impl.dart';
 import 'package:magic_calendar/modules/login/domain/usecase/sign_in_usecase.dart';
@@ -23,7 +22,6 @@ class LoginPage extends StatelessWidget {
               remoteDataSource: UserRemoteDataSource(),
             ),
           ),
-          fetchEventsUseCase: EventService(),
         );
       },
       child: BlocConsumer<LoginBloc, LoginState>(
@@ -32,10 +30,7 @@ class LoginPage extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomePage(
-                  events: state.events,
-                  user: state.user,
-                ),
+                builder: (context) => CalendarPage(),
               ),
             );
           } else if (state is LoginError) {

@@ -66,12 +66,14 @@ class CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarBloc, CalendarState>(
-      builder: (context, state) {
-        if (state is CalendarLoading) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (state is CalendarLoaded) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Calendar')),
+    body: BlocBuilder<CalendarBloc, CalendarState>(
+    builder: (context, state) {
+    if (state is CalendarLoading) {
+    return Center(child: CircularProgressIndicator());
+    } else if (state is CalendarLoaded) {
+
           return Column(
             children: [
               TableCalendar<Event>(
@@ -151,6 +153,7 @@ class CalendarPageState extends State<CalendarPage> {
         }
         return Container(); // Estado inicial ou outros estados
       },
+    ),
     );
   }
 }

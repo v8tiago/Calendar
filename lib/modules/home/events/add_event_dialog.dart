@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:magic_calendar/core/model/event.dart';
 import 'package:magic_calendar/core/model/event_type.dart';
 import 'package:magic_calendar/core/services/dto/event_request.dart';
-import 'package:magic_calendar/core/services/event_service.dart';
 
 class AddEventDialog extends StatefulWidget {
   final Function(Event) onAddEvent;
@@ -182,8 +181,8 @@ class AddEventDialogState extends State<AddEventDialog> {
                 date: DateFormat('yyyy-MM-dd').format(_selectedDate),
               );
 
-              Event eventCreated = await EventService().addEvent(newEvent);
-              widget.onAddEvent(eventCreated);
+              // Event eventCreated = await EventService().addEvent(newEvent);
+              // widget.onAddEvent(eventCreated);
               Navigator.of(context).pop(newEvent);
             }
           },

@@ -14,19 +14,18 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Calendario - Acropolitano',
-        localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        supportedLocales: [
-          Locale('pt', 'BR'),
-        ],
-        theme: ThemeData(
-          useMaterial3: true,
-        ),
-        home: LoginPage(),
+      title: 'Calendario - Acropolitano',
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: [
+        Locale('pt', 'BR'),
+      ],
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
+      home: LoginPage(),
     );
   }
 }

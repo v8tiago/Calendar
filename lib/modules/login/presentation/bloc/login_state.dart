@@ -9,9 +9,8 @@ class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
   final User user;
-  final Map<String, List<Event>> events;
 
-  LoginSuccess({required this.user, required this.events});
+  LoginSuccess({required this.user});
 }
 
 class LoginError extends LoginState {

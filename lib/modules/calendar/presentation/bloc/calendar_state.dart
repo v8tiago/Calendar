@@ -9,5 +9,11 @@ class CalendarLoading extends CalendarState {}
 class CalendarLoaded extends CalendarState {
   final Map<String, List<Event>> events;
 
-  CalendarLoaded(this.events);
+  CalendarLoaded({required this.events});
+}
+
+class CalendarError extends CalendarState {
+  final String message;
+
+  CalendarError({required this.message});
 }

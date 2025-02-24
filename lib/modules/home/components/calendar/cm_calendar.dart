@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:magic_calendar/core/model/event.dart';
 import 'package:magic_calendar/core/model/event_type.dart';
 import 'package:magic_calendar/constants.dart';
-import 'package:magic_calendar/core/services/event_service.dart';
 import 'package:magic_calendar/modules/home/components/calendar/cm_calendar_builder.dart';
 import 'package:magic_calendar/modules/home/components/calendar/cm_header_style.dart';
 import 'package:magic_calendar/shared/presentation/widgets/cm-popup-details.dart';
@@ -202,8 +201,8 @@ class MyCalendarState extends State<MyCalendar> {
 
                     if (confirmDelete == true) {
                       try {
-                        await EventService().deleteEvent(event.id);
-                        widget.onEventDeleted(event);
+                        // await EventService().deleteEvent(event.id);
+                        // widget.onEventDeleted(event);
                         Navigator.of(context).pop();
                       } catch (e) {
                         log("Error deleting event: $e");

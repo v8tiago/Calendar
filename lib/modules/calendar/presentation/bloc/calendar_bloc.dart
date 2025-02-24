@@ -11,14 +11,21 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc(this.getEvents, this.deleteEvent) : super(CalendarInitial()) {
     on<LoadEvents>((event, emit) async {
       emit(CalendarLoading());
-      final today = DateTime.now();
-      final events = await getEvents(today);
-      emit(CalendarLoaded(events));
+      try {
+        final events = await getEvents(DateTime.now());
+        emit(CalendarLoaded(events: events));
+      } catch (e) {
+        emit(CalendarError(message: e.toString()));
+      }
     });
 
     on<DeleteCalendarEvent>((event, emit) async {
-      await deleteEvent(event.eventId);
-      add(LoadEvents());
+      try {
+        await deleteEvent(event.eventId);
+        emit(CalendarInitial()); // Refresh the calendar after deleting
+      } catch (e) {
+        emit(CalendarError(message: e.toString()));
+      }
     });
   }
 }
