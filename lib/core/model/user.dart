@@ -92,8 +92,6 @@ class User {
         return 'master';
       case UserRole.basic:
         return 'basic';
-      default:
-        return 'basic';
     }
   }
 }

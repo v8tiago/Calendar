@@ -27,7 +27,7 @@ class EventService {
 
         return eventsByDate;
       } catch (e) {
-        print('error caught: $e');
+        log('error caught: $e');
         return eventsByDate;
       }
     } else {

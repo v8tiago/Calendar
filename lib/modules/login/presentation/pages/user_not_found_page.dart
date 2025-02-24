@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:magic_calendar/modules/login/presentation/login_page.dart';
+import 'package:magic_calendar/modules/login/presentation/pages/login_page.dart';
 
 class UserNotFoundPage extends StatelessWidget {
   const UserNotFoundPage({super.key});

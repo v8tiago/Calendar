@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 enum UserType {
   master,
@@ -13,8 +12,6 @@ extension UserTypeExtension on UserType {
         return 'MASTER';
       case UserType.basic:
         return 'BASIC'; 
-      default:
-        return '';
     }
   }
 }

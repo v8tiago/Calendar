@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,15 +12,16 @@ import 'package:magic_calendar/shared/presentation/widgets/cm-popup-details.dart
 import 'package:table_calendar/table_calendar.dart';
 
 class MyCalendar extends StatefulWidget {
-  const MyCalendar({super.key, required this.events, required this.onEventDeleted});
+  const MyCalendar(
+      {super.key, required this.events, required this.onEventDeleted});
   final Map<String, List<Event>> events;
   final Function(Event) onEventDeleted;
-  
+
   @override
-  _MyCalendarState createState() => _MyCalendarState();
+  MyCalendarState createState() => MyCalendarState();
 }
 
-class _MyCalendarState extends State<MyCalendar> {
+class MyCalendarState extends State<MyCalendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -63,7 +64,7 @@ class _MyCalendarState extends State<MyCalendar> {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
+        _rangeStart = null;
         _rangeEnd = null;
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
@@ -95,41 +96,62 @@ class _MyCalendarState extends State<MyCalendar> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(event.title),
+          title: Column(
+            children: [
+              Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    event.title,
+                    textAlign: TextAlign.center,
+                  )),
+              Divider(
+                color: event.type.eventTypeColor,
+                thickness: 2.0,
+              ),
+            ],
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...[
                 CmPopupDetails(
-                    type: 'Tipo: ', value: event.type.eventTypeDetail),
+                  type: 'Descrição: ',
+                  value: event.description,
+                ),
                 SizedBox(height: 15.0),
               ],
               ...[
-                CmPopupDetails(type: 'Descrição: ', value: event.description),
+                CmPopupDetails(
+                  type: 'Local: ',
+                  value: event.location,
+                ),
                 SizedBox(height: 15.0),
               ],
-              ...[
-                CmPopupDetails(type: 'Local: ', value: event.location),
-                SizedBox(height: 15.0),
-              ],
-              ...[
+              if (event.isAllDay) ...[
+                CmPopupDetails(
+                  type: 'Dia Todo: ',
+                  value: 'Sim',
+                ), // Mostra "Dia Todo: Sim"
+                SizedBox(height: 8.0),
+              ] else ...[
                 CmPopupDetails(
                   type: 'Horário Início: ',
-                  value: event.isAllDay
-                      ? ''
-                      : event.startTime?.format(context) ?? '',
+                  value: event.startTime?.format(context) ?? '',
+                ),
+                SizedBox(height: 8.0),
+                CmPopupDetails(
+                  type: 'Horário Fim: ',
+                  value: event.endTime?.format(context) ?? '',
                 ),
                 SizedBox(height: 8.0),
               ],
               ...[
                 CmPopupDetails(
-                  type: 'Horário Fim: ',
-                  value: event.isAllDay
-                      ? ''
-                      : event.endTime?.format(context) ?? '',
+                  type: 'Tipo: ',
+                  value: event.type.eventTypeDetail,
                 ),
-                SizedBox(height: 8.0),
+                SizedBox(height: 15.0),
               ],
             ],
           ),
@@ -146,13 +168,48 @@ class _MyCalendarState extends State<MyCalendar> {
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
-                    try {
-                      await EventService().deleteEvent(event.id);
-                      widget.onEventDeleted(event);
+                    bool? confirmDelete = await showDialog(
+                      barrierDismissible: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Confirmar Exclusão'),
+                          content: Text(
+                              'Tem certeza de que deseja excluir este evento?'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Não',
+                                  style: TextStyle(color: Colors.blue)),
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red),
+                              child: Text(
+                                'Sim',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    if (confirmDelete == true) {
+                      try {
+                        await EventService().deleteEvent(event.id);
+                        widget.onEventDeleted(event);
+                        Navigator.of(context).pop();
+                      } catch (e) {
+                        log("Error deleting event: $e");
+                      }
+                    } else {
                       Navigator.of(context).pop();
-                    } catch (e) {
-                      print("Error deleting event: $e");
-                      // Lidar com o erro aqui, como mostrar uma mensagem ao usuário
                     }
                   },
                 ),
@@ -214,16 +271,17 @@ class _MyCalendarState extends State<MyCalendar> {
           },
         ),
         const SizedBox(height: 15.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Text(
-            DateFormat('EEE, dd \'de\' MMMM', 'pt_BR').format(_selectedDay!),
-            style: TextStyle(fontSize: 17, color: Colors.grey[500]),
-          ),
-        ),
+        // Container(
+        //   alignment: Alignment.centerLeft,
+        //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        //   child: Text(
+        //     DateFormat('EEE, dd \'de\' MMMM', 'pt_BR').format(_selectedDay!),
+        //     style: TextStyle(fontSize: 17, color: Colors.grey[500]),
+        //   ),
+        // ),
         const SizedBox(height: 15.0),
-        Expanded(
+        Flexible(
+          flex: 1,
           child: ValueListenableBuilder<List<Event>>(
             valueListenable: _selectedEvents,
             builder: (context, value, _) {

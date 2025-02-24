@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +32,7 @@ class Event {
     return Event(
       id: json['id'],
       title: json['title'],
-      type: _eventTypeFromString(json['type']),
+      type: _eventTypeFromString(json['type'])!,
       description: json['description'],
       location: json['location'],
       isAllDay: json['isAllDay'] ?? false,
@@ -83,7 +84,7 @@ class Event {
     return Event(
       id: map['id'] as int,
       title: map['title'] as String,
-      type: _eventTypeFromString(map['type'] as String),
+      type: _eventTypeFromString(map['type'] as String)!,
       description: map['description'] as String,
       location: map['location'] as String,
       isAllDay: map['isAllDay'] as bool,
@@ -129,7 +130,7 @@ class Event {
         date.hashCode;
   }
 
-  static EventType _eventTypeFromString(String type) {
+  static EventType? _eventTypeFromString(String type) {
     switch (type) {
       case 'NACIONAL':
         return EventType.nacional;
@@ -137,34 +138,21 @@ class Event {
         return EventType.estadual;
       case 'SEDE':
         return EventType.sede;
-      default:
-        return EventType.other;
     }
   }
 
-  static String _eventTypeToString(EventType type) {
-    switch (type) {
-      case EventType.nacional:
-        return 'NACIONAL';
-      case EventType.estadual:
-        return 'ESTADUAL';
-      case EventType.sede:
-        return 'SEDE';
-      default:
-        return 'other';
-    }
-  }
+
 
   static TimeOfDay? _parseTimeOfDay(String? timeString) {
-    if (timeString == null) return null; // Handle null time strings
+    if (timeString == null) return null;
 
     try {
-      DateFormat format = DateFormat("HH:mm"); // Or "h:mm a" for 12-hour format
+      DateFormat format = DateFormat("HH:mm");
       DateTime dateTime = format.parse(timeString);
       return TimeOfDay.fromDateTime(dateTime);
     } catch (e) {
-      print("Error parsing time: $e");
-      return null; // Or handle the error as needed (e.g., return a default TimeOfDay)
+      log("Error parsing time: $e");
+      return null; 
     }
   }
 }

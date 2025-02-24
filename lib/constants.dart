@@ -1,6 +1,6 @@
 class Constants {
   static const String apiUrl =
-      'https://d35e-2804-18-48ad-ddc0-582b-c878-4b89-a50f.ngrok-free.app/api';
+      'https://ce9a-2804-2238-7b2-c300-f49f-d4c9-fefd-35e0.ngrok-free.app/api';
   static const String baseEvents = '$apiUrl/events';
   static const String baseUser = '$apiUrl/auth';
 

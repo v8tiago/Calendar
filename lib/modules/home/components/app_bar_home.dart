@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:magic_calendar/core/model/user.dart';
-import 'package:magic_calendar/modules/login/presentation/login_page.dart';
+import 'package:magic_calendar/modules/login/presentation/pages/login_page.dart';
+
+import '../../login/domain/entities/user.dart';
 
 class AppBarHome extends StatefulWidget implements PreferredSizeWidget {
   const AppBarHome({

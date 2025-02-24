@@ -11,17 +11,16 @@ class AddEventDialog extends StatefulWidget {
   const AddEventDialog({required this.onAddEvent, super.key});
 
   @override
-  _AddEventDialogState createState() => _AddEventDialogState();
+  AddEventDialogState createState() => AddEventDialogState();
 }
 
-class _AddEventDialogState extends State<AddEventDialog> {
+class AddEventDialogState extends State<AddEventDialog> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
   final _startTimeController = TextEditingController();
   final _endTimeController = TextEditingController();
-  final _isAllDayController = TextEditingController();
 
   bool _isAllDay = false;
   DateTime _selectedDate = DateTime.now();
@@ -183,7 +182,6 @@ class _AddEventDialogState extends State<AddEventDialog> {
                 date: DateFormat('yyyy-MM-dd').format(_selectedDate),
               );
 
-              
               Event eventCreated = await EventService().addEvent(newEvent);
               widget.onAddEvent(eventCreated);
               Navigator.of(context).pop(newEvent);
@@ -207,14 +205,6 @@ class _AddEventDialogState extends State<AddEventDialog> {
             .parse(DateFormat('yyyy-MM-dd').format(picked));
       });
     }
-  }
-
-  TimeOfDay _parseTimeOfDay(String time, bool isAllDay) {
-    if (!isAllDay) {
-      final format = DateFormat.jm();
-      return TimeOfDay.fromDateTime(format.parse(time));
-    }
-    return TimeOfDay(hour: 0, minute: 0);
   }
 
     String _parseString(String time, bool isAllDay) {

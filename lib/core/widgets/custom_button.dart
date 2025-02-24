@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CmButton extends StatelessWidget {
-  const CmButton({super.key, this.onPressed});
+class CustomButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String text;
 
-  final Function()? onPressed;
+  const CustomButton({super.key, required this.onPressed, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +14,9 @@ class CmButton extends StatelessWidget {
         backgroundColor:
             WidgetStateProperty.all(Color.fromARGB(255, 11, 137, 123)),
       ),
-      child: const Center(
+      child: Center(
         child: Text(
-          "Entrar",
+          text,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

@@ -4,7 +4,6 @@ enum EventType {
   nacional,
   estadual,
   sede,
-  other,
 }
 
 extension EventTypeExtension on EventType {
@@ -16,8 +15,6 @@ extension EventTypeExtension on EventType {
         return Colors.green;
       case EventType.sede:
         return Colors.orange;
-      default:
-        return Colors.grey;
     }
   }
 
@@ -29,8 +26,6 @@ extension EventTypeExtension on EventType {
         return 'Estadual'; 
       case EventType.sede:
         return 'Sede'; 
-      default:
-        return 'Outros';
     }
   }
 }
